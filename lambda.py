@@ -8,7 +8,7 @@ import json
 
 
 API_ROOT = 'https://api.groupme.com/v3/'
-FLAGGED_PHRASES = (
+FLAGGED_SPAM_PHRASES = (
     'essay written by professionals',
     'paper writing service',
     'academic writing service',
@@ -17,6 +17,11 @@ FLAGGED_PHRASES = (
     'cutt.us',
     'inyurl.com/muxz7h',
 )
+WORK_MESSAGE = (
+    'want to work',
+    'wanna work',
+    'sign me up',
+)    
 
 
 def get_memberships(group_id, token):
@@ -52,13 +57,16 @@ def receive(event, context): #receive
     message = json.loads(event['body'])
 
     bot_id = message['bot_id']
-    for phrase in FLAGGED_PHRASES:
+    for phrase in FLAGGED_SPAM_PHRASES:
         if phrase in message['text'].lower():
             # kick_user(message['group_id'], message['user_id'], message['token'])
             delete_message(message['group_id'], message['id'], message['token'])
             send('Kicked ' + message['name'] + ' due to apparent spam post.', bot_id)
             break
-
+    for phrase in WORK_MESSAGE:
+        if phrase in message['text'].lower():
+            send('Thank you for your interest ' + message['name'] + ' .  Please sign up through the staff app.  Any further updates will be provided through the event specific GroupMe.', bot_id)
+            break
     return {
         'statusCode': 200,
         'body': 'ok'
