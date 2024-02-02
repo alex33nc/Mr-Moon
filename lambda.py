@@ -61,7 +61,7 @@ def receive(event, context): #receive
     bot_id = message['bot_id']
     for phrase in FLAGGED_SPAM_PHRASES:
         if phrase in message['text'].lower():
-            # kick_user(message['group_id'], message['user_id'], message['token'])
+            kick_user(message['group_id'], message['user_id'], message['token'])
             delete_message(message['group_id'], message['id'], message['token'])
             send('Kicked ' + message['name'] + ' due to apparent spam post.', bot_id)
             break
