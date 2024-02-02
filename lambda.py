@@ -16,6 +16,8 @@ FLAGGED_SPAM_PHRASES = (
     'getting professional academic help from us is easy',
     'cutt.us',
     'inyurl.com/muxz7h',
+    'essaymarket',
+    'cute essay writers',
 )
 WORK_MESSAGE = (
     'want to work',
@@ -63,10 +65,10 @@ def receive(event, context): #receive
             delete_message(message['group_id'], message['id'], message['token'])
             send('Kicked ' + message['name'] + ' due to apparent spam post.', bot_id)
             break
-    for phrase in WORK_MESSAGE:
-        if phrase in message['text'].lower():
-            send('Thank you for your interest ' + message['name'] + ' .  Please sign up through the staff app.  Any further updates will be provided through the event specific GroupMe.', bot_id)
-            break
+    # for phrase in WORK_MESSAGE:
+    #    if phrase in message['text'].lower():
+    #         send('Thank you for your interest ' + message['name'] + ' .  Please sign up through the staff app.  Any further updates will be provided through the event specific GroupMe.', bot_id)
+    #        break
     return {
         'statusCode': 200,
         'body': 'ok'
